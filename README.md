@@ -9,11 +9,10 @@ We’re looking for code that is clean, readable, performant, and maintainable. 
   
 We would like you to create a simple invoicing app with the following features:
 
- - [ ] Create a new invoice
-Required fields w/ example:
+ - [ ] Create a new invoice. Required fields w/ example:
 ```
   "customer_email": "john@test.com",
-  "customer_name": "Jonh Daly",
+  "customer_name": "John Daly",
   "description": "For services rendered",
   "due_date": "2022-02-10",
   "status": "draft","approved","sent", paid"
