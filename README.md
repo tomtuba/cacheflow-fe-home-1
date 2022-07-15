@@ -39,6 +39,18 @@ You should use the following tools:
  - React
  - Typescript
 
+## Getting Started
+
+1. Clone this repo
+
+2. In the project directory, run:
+
+### `npm install`
+
+3. Then run
+
+### `npm start`
+
 If you have any questions, ask away!
 
 To complete your homework, please fork this repo and commit your work to your fork. When you are ready for us to look at it, give us access to your fork so we can review and run it.
