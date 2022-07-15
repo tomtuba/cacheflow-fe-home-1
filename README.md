@@ -37,7 +37,7 @@ Your backend can be anything, and does not have to work. If you would like to us
 You should use the following tools:
 
  - React
- - Typescript
+ - Javascript or Typescript
 
 ## Getting Started
 
