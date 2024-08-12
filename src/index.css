@@ -7,7 +7,7 @@ th, td {
     padding-right: 4px;
 }
 
-button, input {
+button, input, select {
     border: #CCCCCC solid 1px;
     border-radius: 2px;
     padding-left: 4px;

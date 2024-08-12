@@ -28,7 +28,6 @@ export function InvoiceListComponent() {
     const createInvoice = () => {
         const newInvoice = {...defaultInvoice()};
         setEditedInvoice(newInvoice);
-        setInvoices([...invoices, newInvoice]);
     }
 
     const removeInvoice = (id: string) => {
@@ -58,6 +57,9 @@ export function InvoiceListComponent() {
     const updateInvoice = (invoice: Invoice) => {
         const ids = invoices.map((invoice) => invoice.id);
         const idMap = new Map(invoices.map((invoice) => [invoice.id, invoice]));
+        if (! idMap.has(invoice.id)) {
+            ids.push(invoice.id);
+        }
         idMap.set(invoice.id, invoice);
         setInvoices(ids.map((id) => idMap.get(id)!));
         setEditedInvoice(undefined);

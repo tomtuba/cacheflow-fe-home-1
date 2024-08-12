@@ -2,7 +2,7 @@ import DatePicker from "react-date-picker";
 import {capitalizeFirstLetter, showCurrency} from "../utilities/converters";
 import {FaEraser, FaPlus, FaSave, FaUndo} from "react-icons/fa";
 import Modal from "react-modal";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {defaultInvoiceLine, Invoice, InvoiceLine, InvoiceStatus} from "../models/Invoice";
 import {Value} from "react-date-picker/dist/cjs/shared/types";
 import {InvoiceLineEditComponent} from "./InvoiceLineEditComponent";
@@ -19,11 +19,13 @@ export function InvoiceEditModal({editedInvoice, setEditedInvoice, updateInvoice
 
     const [errors, setErrors] = useState<string[]>([]);
 
+    useEffect(() => {
+        revalidate();
+    }, [editedInvoice])
+
     const handleUpdate = (event: ChangeEvent<HTMLInputElement>) => {
         if (editedInvoice && event?.target?.value !== undefined) {
             setEditedInvoice({...editedInvoice, [event?.target?.name]: event?.target?.value});
-
-            revalidate();
         }
     }
 
@@ -48,6 +50,15 @@ export function InvoiceEditModal({editedInvoice, setEditedInvoice, updateInvoice
         }
     }
 
+    const removeInvoiceLine = (invoiceLineId: string) => {
+        if (editedInvoice) {
+            setEditedInvoice({
+                ...editedInvoice,
+                details: [...editedInvoice?.details.filter((invoice) => invoice.id !== invoiceLineId)]
+            });
+        }
+    }
+
     const setInvoiceLine = (invoiceLine: InvoiceLine | undefined) => {
         if (editedInvoice && invoiceLine) {
             const ids = editedInvoice.details?.map((detail) => detail.id);
@@ -56,7 +67,6 @@ export function InvoiceEditModal({editedInvoice, setEditedInvoice, updateInvoice
             const updatedLines = ids.map((id) => linesById.get(id)!);
             const total = updatedLines.reduce((total, line) => total + line.quantity * line.amount, 0);
             setEditedInvoice({...editedInvoice, details: updatedLines, total});
-            revalidate();
         }
     }
 
@@ -154,14 +164,24 @@ export function InvoiceEditModal({editedInvoice, setEditedInvoice, updateInvoice
                     <table>
                         <tbody>
                         <tr>
-                            <th>Quantity</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Line Total</th>
+                            <th>{/* Empty column header - for Remove button */}</th>
+                            <th>
+                                <div className="text-left">Quantity</div>
+                            </th>
+                            <th>
+                                <div className="text-left">Description</div>
+                            </th>
+                            <th>
+                                <div className="text-left">Amount</div>
+                            </th>
+                            <th>
+                                <div className="text-left">Line Total</div>
+                            </th>
                         </tr>
                         {editedInvoice?.details.map((invoiceLine) => (
                             <InvoiceLineEditComponent invoiceLine={invoiceLine}
                                                       setInvoiceLine={setInvoiceLine}
+                                                      removeInvoiceLine={removeInvoiceLine}
                                                       key={invoiceLine.id}
                             />
                         ))}
